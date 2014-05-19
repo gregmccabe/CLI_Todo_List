@@ -22,7 +22,7 @@ do {
     echo list_items($items);
 
     // Show the menu options
-    echo '(N)ew item, (R)emove item, (Q)uit : ';
+    echo '(N)ew item, (R)emove item, (S)ort, (Q)uit : ';
 
     // Get the input from user
     // Use trim() to remove whitespace and newlines
@@ -30,19 +30,20 @@ do {
 
     // Check for actionable input
     if ($input == 'N') {
-        // Ask for entry
         echo 'Enter item: ';
-        // Add entry to list array
         $items[] = get_input();
+       
     } elseif ($input == 'R') {
-        // Remove which item?
         echo 'Enter item number to remove: ';
-        // Get array key
         $key = get_input();
-        // Remove from array
         unset($items[$key - 1]);
         $items = array_values($items);
+    } elseif ($input == 'S') {
+    	sort($items);
     }
+        
+        
+		
 // Exit when input is (Q)uit
 } while ($input != 'Q');
 
