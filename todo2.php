@@ -1,13 +1,12 @@
 <?php
 
 
-$items = array('');
-unset($items[0]);
+$items = array();
 
 function list_items($list){
     $result = '';
   foreach ($list as $key => $value) {
-        $result .= "[$key] $value" . PHP_EOL ;
+        $result .= "[" . ($key + 1) . "] $value\n"; 
   }
   return $result; 
 }
@@ -41,7 +40,8 @@ do {
         // Get array key
         $key = get_input();
         // Remove from array
-        unset($items[$key]);
+        unset($items[$key - 1]);
+        $items = array_values($items);
     }
 // Exit when input is (Q)uit
 } while ($input != 'Q');
