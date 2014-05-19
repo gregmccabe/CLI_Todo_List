@@ -15,6 +15,27 @@ function get_input($upper = false) {
     $results = trim(fgets(STDIN));
     return $upper ? strtoupper($results) : $results;
 }
+function sort_menu($items) {
+	echo '(A)-Z, (Z)-A, (O)rder entered, (R)everse order entered: ';
+	$input = get_input(true);
+	
+	
+	switch ($input) {
+		case 'A':
+			 sort($items);
+			break;
+		case 'Z':
+			 rsort($items);
+			 break;
+		case 'O':
+			asort($items);
+			break;
+		case 'R':
+			arsort($items);	
+			break;
+		}
+	return $items;
+}
 
 do {
     
@@ -39,12 +60,12 @@ do {
         unset($items[$key - 1]);
         $items = array_values($items);
     } elseif ($input == 'S') {
-    	sort($items);
-    }
-        
-        
+    	
+		$items = sort_menu($items);
 		
-// Exit when input is (Q)uit
+    }
+        		
+
 } while ($input != 'Q');
 
 // Say Goodbye!
