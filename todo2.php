@@ -37,13 +37,21 @@ function sort_menu($items) {
 	return $items;
 }
 
+// Create a function that reads the file, and adds each line to the current TODO list. Loading data/list.txt should properly load the list from above. Be sure to fclose() the file when you are done reading it.
+function read_file() {
+    echo "Enter the filename: ";
+    $filename = get_input();
+    $handle = fopen($filename, "r");
+    $contents = fread($handle, filesize($filename));
+    return $contents;
+    fclose($handle);
+}
 do {
-
     // Echo the list produced by the function
-    echo list_items($items);
+    echo '===================' . PHP_EOL . list_items($items) . PHP_EOL . '===================' . PHP_EOL;
 
     // Show the menu options
-    echo '(N)ew item, (R)emove item, (S)ort, (Q)uit : ';
+    echo '(N)ew item, (R)emove item, (S)ort, (O)pen file, (Q)uit : ';
 
     // Get the input from user
     // Use trim() to remove whitespace and newlines
@@ -76,6 +84,10 @@ do {
         array_shift($items);
     } elseif ($input == 'L') {
         array_pop($items);
+    } elseif ($input == 'O') {
+        $content = read_file();
+        $content_array = explode("\n", $content);
+        $items = array_merge($items, $content_array);
     }
 
 
