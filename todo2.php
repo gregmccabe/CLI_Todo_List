@@ -6,9 +6,9 @@ $items = array();
 function list_items($list){
     $result = '';
   foreach ($list as $key => $value) {
-        $result .= "[" . ($key + 1) . "] $value\n"; 
+        $result .= "[" . ($key + 1) . "] $value\n";
   }
-  return $result; 
+  return $result;
 }
 
 function get_input($upper = false) {
@@ -18,27 +18,27 @@ function get_input($upper = false) {
 function sort_menu($items) {
 	echo '(A)-Z, (Z)-A, (O)rder entered, (R)everse order entered: ';
 	$input = get_input(true);
-	
-	
+
+
 	switch ($input) {
 		case 'A':
-			 sort($items);
+			 asort($items);
 			break;
 		case 'Z':
-			 rsort($items);
+			 arsort($items);
 			 break;
 		case 'O':
-			asort($items);
+			ksort($items);
 			break;
 		case 'R':
-			arsort($items);	
+			krsort($items);
 			break;
 		}
 	return $items;
 }
 
 do {
-    
+
     // Echo the list produced by the function
     echo list_items($items);
 
@@ -50,21 +50,34 @@ do {
     $input = get_input(true);
 
     // Check for actionable input
+
+
     if ($input == 'N') {
         echo 'Enter item: ';
-        $items[] = get_input();
-       
+        $item = get_input();
+        fwrite(STDOUT, "Do you want to add to the Beginning or End of the list?\n");
+       $N = get_input(true);
+        if ($N == 'B') {
+            array_unshift($items, $item);
+        }
+        elseif ($N == 'E') {
+            array_push($items, $item);
+        }
     } elseif ($input == 'R') {
         echo 'Enter item number to remove: ';
         $key = get_input();
         unset($items[$key - 1]);
-        $items = array_values($items);
+        // $items = array_values($items);
     } elseif ($input == 'S') {
-    	
+
 		$items = sort_menu($items);
-		
+
+    } elseif ($input == 'F') {
+        array_shift($items);
+    } elseif ($input == 'L') {
+        array_pop($items);
     }
-        		
+
 
 } while ($input != 'Q');
 
