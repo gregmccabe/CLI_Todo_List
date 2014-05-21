@@ -40,22 +40,35 @@ function sort_menu($items) {
 // Create a function that reads the file, and adds each line to the current TODO list. Loading data/list.txt should properly load the list from above. Be sure to fclose() the file when you are done reading it.
 function read_file($filename) {
     $handle = fopen($filename, "r");
-    $contents = fread($handle, filesize($filename));
+    $contents = trim(fread($handle, filesize($filename)));
     fclose($handle);
     return $contents;
 }
+function write_file($filename, $items) {
+
+    $handle = fopen($filename, 'w');
+    foreach ($items as $item) {
+        fwrite($handle, $item . PHP_EOL);
+    }
+    fclose($handle);
+
+}
+
 do {
     // Echo the list produced by the function
     echo '===================' . PHP_EOL . list_items($items) . PHP_EOL . '===================' . PHP_EOL;
 
     // Show the menu options
-    echo '(N)ew item, (R)emove item, (S)ort, (O)pen file, (Q)uit : ';
+    echo '(N)ew item, (R)emove item, (S)ort, (O)pen file, s(A)ve, (Q)uit : ';
 
     // Get the input from user
     // Use trim() to remove whitespace and newlines
 
     // Check for actionable input
     $input = get_input(true);
+
+// When s(A)ve is chosen, the user should be able to enter the path to a file to have it save. Use fwrite() with the mode that starts at the beginning of a file and removes all the file contents, or creates a new one if it does not exist. After save, alert the user the save was successful and redisplay the list and main menu.
+
 
 
     if ($input == 'N') {
@@ -89,6 +102,18 @@ do {
         $content = read_file($filename);
         $content_array = explode("\n", $content);
         $items = array_merge($items, $content_array);
+    } elseif ($input == 'A') {
+        echo "Enter the filename: ";
+
+        $filename = get_input();
+         write_file($filename, $items);
+        // $handle = fopen($filename, 'w');
+
+        // foreach ($items as $item) {
+        //     fwrite($handle, $item . PHP_EOL);
+        // }
+        // fclose($handle);
+        echo "save was successful\n";
     }
 
 
