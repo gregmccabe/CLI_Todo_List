@@ -44,14 +44,31 @@ function read_file($filename) {
     fclose($handle);
     return $contents;
 }
-function write_file($filename, $items) {
+// If the file they are saving to exists, warn the user and ask for them to confirm overwriting the file. If the user chooses not to proceed, cancel the save and return to the main menu with TODOs listed.
 
-    $handle = fopen($filename, 'w');
-    foreach ($items as $item) {
-        fwrite($handle, $item . PHP_EOL);
+//    if (file_exists) {
+//     issue warning message
+//        ask for continue Y/N?
+            // if Yes, then save over file
+            //     else exit
+// }  else
+
+
+function write_file_save($filename, $items) {
+    if (file_exists($filename)) {
+        echo "File exists, do you want to overwrite Y/N:";
+        $overwrite = get_input(TRUE);
+        if ($overwrite == 'Y') {
+            $handle = fopen($filename, 'w');
+            foreach ($items as $item) {
+                fwrite($handle, $item . PHP_EOL);
+            }
+            fclose($handle);
+            echo "Save successful!\n";
+        } else {
+            echo "File not saved.\n";
+        }
     }
-    fclose($handle);
-
 }
 
 do {
@@ -106,15 +123,15 @@ do {
         echo "Enter the filename: ";
 
         $filename = get_input();
-         write_file($filename, $items);
+        write_file_save($filename, $items);
         // $handle = fopen($filename, 'w');
 
         // foreach ($items as $item) {
         //     fwrite($handle, $item . PHP_EOL);
         // }
         // fclose($handle);
-        echo "save was successful\n";
     }
+
 
 
 } while ($input != 'Q');
